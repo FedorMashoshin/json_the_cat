@@ -13,6 +13,8 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "eslint": "^7.5.0"
+    "chai": "^4.2.0",
+    "eslint": "^7.5.0",
+    "mocha": "^7.1.1"
   }
 }

@@ -1,9 +1,25 @@
 const request = require('request');
-const breed = process.argv[2]; // Reading our val from Node
-request(`https://api.thecatapi.com/v1/breeds/search?q=${breed}`, (error, response, body) => {
-  if (error) { // If we have an error --> show it
-    console.log('Ooops, it seems like an error: \n ', error);
-  }
-  const data = JSON.parse(body); // transform to obj via JSON
-  console.log(`${data[0].name}: ${data[0].description}`); // Console exact what we want
-});
+
+const fetchBreedDescription = function(breedName, callback) {
+  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, (error, response, body) => {
+    const desc = JSON.parse(body); // transform to obj via JSON
+
+    /*
+   Our callback has 2 param //!callback(error, desc)
+   All possible cases are down here
+   */
+
+    if (error) { // Checking if there is YES ERROR
+      callback(error, null);
+    } else {
+      if (desc.length === 0) { // If there is NO ERROR but NO DESCRIPTION
+        callback('There is no description for this.', null);
+      } else { // If there is NO ERROR anf YES DESCRIPTION
+        callback(null, desc[0].description);
+      }
+    }
+  });
+};
+
+
+module.exports = { fetchBreedDescription };
